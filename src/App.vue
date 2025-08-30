@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core';
-import { computed, ref, useTemplateRef, type CSSProperties } from 'vue';
+import { computed, ref, useTemplateRef, watch, type CSSProperties } from 'vue';
 import CanvasSettingsDialog from './CanvasSettingsDialog.vue';
 import GenerationSettingsDialog from './GenerationSettingsDialog.vue';
 import { canvasElement, canvasKey, copyWallpaper, downloadWallpaper, generateWallpaper, imageDataURL, imagesLoaded, isMobile, wallpaperHeight, wallpaperWidth } from './logic';
@@ -11,6 +11,11 @@ const canvasContainer = useTemplateRef("canvasContainer")
 const { width: containerWidth, height: containerHeight } = useElementSize(canvasContainer)
 
 const copyStatus = ref('')
+const copied1 = ref(0)
+const copied2 = ref(0)
+
+watch(copied1, t => t && setTimeout(() => copied1.value--, 3000))
+watch(copied2, t => t && setTimeout(() => copied2.value--, 3000))
 
 const showCanvasSettings = ref(false)
 const showGenerationSettings = ref(false)
@@ -45,6 +50,7 @@ const handleCopy = async () => {
   const success = await copyWallpaper()
   if (success) {
     copyStatus.value = '✨ 已复制到剪贴板！'
+    copied1.value ++
   } else {
     copyStatus.value = '❌ 复制失败'
   }
@@ -101,10 +107,7 @@ const shareToPlatform = (platform: string) => {
     case 'copy':
       // 复制链接到剪贴板
       navigator.clipboard.writeText(`${text}\n${url}`).then(() => {
-        copyStatus.value = '🔗 分享链接已复制到剪贴板！'
-        setTimeout(() => {
-          copyStatus.value = ''
-        }, 2000)
+        copied2.value++
       })
       break
     case 'native':
@@ -156,13 +159,13 @@ const shareToPlatform = (platform: string) => {
           <button v-if="!isMobile" @click="handleCopy"
             class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📋</span>
-            复制
+            {{ copied1 ? '已复制&emsp;' : '复制图像' }}
           </button>
 
           <button v-if="!isMobile" @click="handleDownload"
             class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📥</span>
-            下载
+            下载图像
           </button>
 
           <button @click="generateWallpaper" :disabled="!imagesLoaded"
@@ -178,7 +181,7 @@ const shareToPlatform = (platform: string) => {
           <button v-if="isMobile" @click="handleDownload"
             class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📥</span>
-            下载
+            下载图像
           </button>
 
           <button @click="showCanvasSettings = true"
@@ -308,28 +311,21 @@ const shareToPlatform = (platform: string) => {
                 <!-- 分享按钮 -->
                 <div class="pt-4">
                   <div class="text-sm text-green-600 mb-3">✨ 分享给朋友们</div>
-                  <div class="grid grid-cols-2 gap-2 max-w-xs mx-auto">
-                    <!-- Twitter -->
+                  <div class="flex flex-wrap justify-center gap-2 max-w-xs mx-auto">
                     <button @click="shareToPlatform('twitter')"
                       class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full hover:from-blue-200 hover:to-blue-300 hover:text-blue-800 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5">
                       <span>🐦</span>
                       Twitter
                     </button>
-
-                    <!-- Telegram -->
                     <button @click="shareToPlatform('telegram')"
                       class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-cyan-100 to-blue-200 text-cyan-700 rounded-full hover:from-cyan-200 hover:to-blue-300 hover:text-cyan-800 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5">
                       <span>✈️</span>
                       Telegram
                     </button>
-                  </div>
-
-                  <!-- 复制链接按钮 -->
-                  <div class="mt-3">
                     <button @click="shareToPlatform('copy')"
                       class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full hover:from-gray-200 hover:to-gray-300 hover:text-gray-800 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 mx-auto">
                       <span>🔗</span>
-                      复制分享链接
+                      {{  copied2 ? '已复制': '复制链接' }}
                     </button>
                   </div>
                 </div>

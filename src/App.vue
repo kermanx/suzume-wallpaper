@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useElementSize } from '@vueuse/core';
-import { computed, ref, useTemplateRef, watch, type CSSProperties } from 'vue';
+import { computed, onMounted, ref, useTemplateRef, watch, type CSSProperties } from 'vue';
 import CanvasSettingsDialog from './CanvasSettingsDialog.vue';
 import GenerationSettingsDialog from './GenerationSettingsDialog.vue';
 import { canvasElement, canvasKey, copyWallpaper, downloadWallpaper, generateWallpaper, imageDataURL, imagesLoaded, isMobile, wallpaperHeight, wallpaperWidth } from './logic';
+import { inject } from "@vercel/analytics"
+
+onMounted(() => inject())
 
 const wallpaperRatio = computed(() => wallpaperWidth.value / wallpaperHeight.value)
 

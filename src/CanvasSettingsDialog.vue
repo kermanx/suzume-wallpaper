@@ -74,7 +74,7 @@ const currentRatio = computed(() => {
       </div>
 
       <!-- 当前尺寸显示 -->
-      <div class="flex-shrink-0 p-4 pb-0 md:p-6 md:pb-0 hidden md:block">
+      <!-- <div class="flex-shrink-0 p-4 pb-0 md:p-6 md:pb-0 hidden md:block">
         <div class="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-xl border-2 border-green-200">
           <div class="text-center">
             <p class="text-green-700 font-semibold mb-1">当前画布尺寸</p>
@@ -82,7 +82,7 @@ const currentRatio = computed(() => {
             <p class="text-sm text-green-600">比例: {{ currentRatio }}</p>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 预设尺寸选择 -->
       <div class="flex-1 flex flex-col p-4 py-2 md:p-6 md:py-4 min-h-0">

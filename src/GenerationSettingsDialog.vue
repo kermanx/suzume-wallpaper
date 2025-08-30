@@ -84,7 +84,7 @@ const sizeVariationDescription = computed(() => {
       </div>
 
       <!-- 当前设置显示 -->
-      <div class="flex-shrink-0 p-4 pb-0 md:p-6 md:pb-0 hidden md:block">
+      <!-- <div class="flex-shrink-0 p-4 pb-0 md:p-6 md:pb-0 hidden md:block">
         <div class="bg-gradient-to-r from-blue-100 to-indigo-100 p-4 rounded-xl border-2 border-blue-200">
           <div class="text-center">
             <p class="text-blue-700 font-semibold mb-2">当前生成设置</p>
@@ -102,7 +102,7 @@ const sizeVariationDescription = computed(() => {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- 预设配置选择 -->
       <div class="flex-1 flex flex-col p-4 py-2 md:p-6 md:py-4 min-h-0">

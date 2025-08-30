@@ -6,11 +6,11 @@ const show = defineModel<boolean>()
 
 // 预设配置选项
 const presetConfigs = [
-  { name: '稀疏分布', density: 60, sizeVariation: 0.8, description: '较少图片，更大间距' },
-  { name: '标准配置', density: 100, sizeVariation: 1.0, description: '默认密度和大小' },
-  { name: '密集分布', density: 150, sizeVariation: 1.2, description: '更多图片，较小间距' },
-  { name: '极密集', density: 200, sizeVariation: 0.6, description: '密集排列，尺寸统一' },
-  { name: '混乱风格', density: 120, sizeVariation: 2.0, description: '中等密度，大小差异明显' },
+  { name: '稀疏分布', density: 10, sizeVariation: 0.8, description: '较少图片，更大间距' },
+  { name: '标准配置', density: 20, sizeVariation: 1.0, description: '默认密度和大小' },
+  { name: '密集分布', density: 50, sizeVariation: 1.2, description: '更多图片，较小间距' },
+  { name: '极密集', density: 80, sizeVariation: 0.6, description: '密集排列，尺寸统一' },
+  { name: '混乱风格', density: 30, sizeVariation: 2.0, description: '中等密度，大小差异明显' },
 ]
 
 // 临时设置值
@@ -46,9 +46,9 @@ const closeDialog = () => {
 
 // 密度描述
 const densityDescription = computed(() => {
-  if (selectedDensity.value < 70) return '稀疏'
-  if (selectedDensity.value < 100) return '适中'
-  if (selectedDensity.value < 150) return '密集'
+  if (selectedDensity.value < 15) return '稀疏'
+  if (selectedDensity.value <= 30) return '适中'
+  if (selectedDensity.value < 80) return '密集'
   return '极密集'
 })
 
@@ -68,7 +68,8 @@ const sizeVariationDescription = computed(() => {
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeDialog"></div>
 
     <!-- 对话框 -->
-    <div class="flex flex-col relative bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl shadow-blue-500/20 border-2 border-blue-200 max-w-md w-full h-[80vh] md:h-[80vh] h-[90vh]">
+    <div
+      class="flex flex-col relative bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl shadow-blue-500/20 border-2 border-blue-200 max-w-md w-full h-[80vh] md:h-[80vh] h-[90vh]">
       <!-- 头部 -->
       <div class="flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-4 md:p-6 rounded-t-2xl">
         <div class="flex items-center justify-between">
@@ -141,12 +142,14 @@ const sizeVariationDescription = computed(() => {
             <label class="block text-sm font-medium text-gray-600 mb-2">
               密度: {{ selectedDensity }} ({{ densityDescription }})
             </label>
-            <input v-model.number="selectedDensity" type="range" min="50" max="200" step="10"
+            <input v-model.number="selectedDensity" type="range" min="5" max="100" step="1"
               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
-            <div class="flex justify-between text-xs text-gray-500 mt-1">
-              <span>稀疏 (50)</span>
-              <span>标准 (100)</span>
-              <span>极密集 (200)</span>
+            <div class="flex text-xs text-gray-500 mt-1">
+              <div>稀疏 (5)</div>
+              <div flex-grow-2 />
+              <div>适中 (20)</div>
+              <div flex-grow-80 />
+              <div>极密集 (100)</div>
             </div>
           </div>
           <div>
@@ -155,9 +158,11 @@ const sizeVariationDescription = computed(() => {
             </label>
             <input v-model.number="selectedSizeVariation" type="range" min="0.5" max="2.0" step="0.1"
               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
-            <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <div class="flex text-xs text-gray-500 mt-1">
               <span>统一 (0.5)</span>
+              <div flex-grow-14 />
               <span>标准 (1.0)</span>
+              <div flex-grow-40 />
               <span>极变化 (2.0)</span>
             </div>
           </div>
@@ -165,7 +170,8 @@ const sizeVariationDescription = computed(() => {
       </div>
 
       <!-- 底部按钮 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-blue-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-blue-200">
+      <div
+        class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-blue-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-blue-200">
         <div class="flex gap-3">
           <button @click="closeDialog"
             class="flex-1 px-4 py-2.5 rounded-xl font-semibold border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-100 transition-all duration-200">

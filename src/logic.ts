@@ -9,7 +9,7 @@ export const canvasElement = ref<HTMLCanvasElement | null>(null)
 export const imagesLoaded = ref(false)
 
 // 生成设置
-export const generateDensity = useLocalStorage<number>('szm.generateDensity', 100)  // 密度 (50-200)
+export const generateDensity = useLocalStorage<number>('szm.generateDensity', 20)  // 密度 (5-100)
 export const generateSizeVariation = useLocalStorage<number>('szm.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
 
 const drawingWorker = new DrawingWorker()
@@ -55,6 +55,11 @@ watch([canvasElement, imagesLoaded], () => {
   initCanvas()
   generateWallpaper()
 }, { immediate: true })
+
+watch([generateDensity, generateSizeVariation], () => {
+  if (!imagesLoaded.value || !canvasElement.value) return
+  generateWallpaper()
+})
 
 watch([wallpaperWidth, wallpaperHeight], () => {
   canvasKey.value++

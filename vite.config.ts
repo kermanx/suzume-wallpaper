@@ -6,7 +6,6 @@ import { fileURLToPath, URL } from 'node:url'
 import sharp from 'sharp'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
-import vueDevTools from 'vite-plugin-vue-devtools'
 
 async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
   try {
@@ -50,7 +49,6 @@ const szmFiles = Promise.all(
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
     UnoCSS(),
     {
       name: 'szm-assets',

@@ -6,13 +6,13 @@ export interface StickToDraw {
   angle: number
 }
 
-export function generate(width: number, height: number, total: number, density: number = 100, sizeVariation: number = 1.0): StickToDraw[] {
+export function generate(width: number, height: number, total: number, density: number, sizeVariation: number = 1.0): StickToDraw[] {
   const sticks: StickToDraw[] = []
 
-  const columnDensity = density
-  const columns = Array.from({ length: 20 * columnDensity }, () => 0)
+  const columnsPerSize = 100
+  const columns = Array.from({ length: density * columnsPerSize }, () => 0)
 
-  const scale = width / 20
+  const scale = width / density
   const heightInUnit = height / scale
 
   console.log({ scale, heightInUnit })
@@ -22,16 +22,16 @@ export function generate(width: number, height: number, total: number, density: 
 
     for (const i of indices) {
       const size = rngRandom(0.9, 1.1) ** 2 * randomSelect({
-        0.5: 1,
+        0.5: 2,
         1: 10,
-        3: 1,
-      }) * sizeVariation
+        3: 2,
+      }) ** sizeVariation
 
       for (let attempt = 0; ; attempt++) {
-        const x = Math.floor(Math.random() * 24) - 2
-        const deltaCol = columnDensity / 2.3 * size;
-        const minCol = Math.floor(Math.max(0, x * columnDensity - deltaCol))
-        const maxCol = Math.floor(Math.min(columns.length, x * columnDensity + deltaCol))
+        const x = Math.floor(Math.random() * (density + 4)) - 2
+        const deltaCol = columnsPerSize / 2.3 * size;
+        const minCol = Math.floor(Math.max(0, x * columnsPerSize - deltaCol))
+        const maxCol = Math.floor(Math.min(columns.length, x * columnsPerSize + deltaCol))
 
         let minY = Infinity;
         let maxY = -Infinity;
@@ -59,7 +59,7 @@ export function generate(width: number, height: number, total: number, density: 
           break
         }
 
-        if (attempt > 100 * columnDensity) {
+        if (attempt > 5 * density * columnsPerSize) {
           break finish
         }
       }

@@ -10,6 +10,8 @@ interface GenerateMessage {
   type: 'generate'
   width: number
   height: number
+  density: number
+  sizeVariation: number
 }
 
 export type WorkerMessage = InitCanvasMessage | GenerateMessage
@@ -82,7 +84,7 @@ self.onmessage = async function (e: MessageEvent<WorkerMessage>) {
       return
     }
 
-    const sticks = generate(message.width, message.height, loadedImages.length)
+    const sticks = generate(message.width, message.height, loadedImages.length, message.density, message.sizeVariation)
     await drawSticks(sticks, message.width, message.height)
 
     self.postMessage({ type: 'generated' })

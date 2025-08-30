@@ -6,10 +6,10 @@ export interface StickToDraw {
   angle: number
 }
 
-export function generate(width: number, height: number, total: number): StickToDraw[] {
+export function generate(width: number, height: number, total: number, density: number = 100, sizeVariation: number = 1.0): StickToDraw[] {
   const sticks: StickToDraw[] = []
 
-  const columnDensity = 100
+  const columnDensity = density
   const columns = Array.from({ length: 20 * columnDensity }, () => 0)
 
   const scale = width / 20
@@ -25,7 +25,7 @@ export function generate(width: number, height: number, total: number): StickToD
         0.5: 1,
         1: 10,
         3: 1,
-      })
+      }) * sizeVariation
 
       for (let attempt = 0; ; attempt++) {
         const x = Math.floor(Math.random() * 24) - 2

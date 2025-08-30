@@ -8,6 +8,10 @@ export const wallpaperHeight = useLocalStorage<number>('szm.wallpaperHeight', 31
 export const canvasElement = ref<HTMLCanvasElement | null>(null)
 export const imagesLoaded = ref(false)
 
+// 生成设置
+export const generateDensity = useLocalStorage<number>('szm.generateDensity', 100)  // 密度 (50-200)
+export const generateSizeVariation = useLocalStorage<number>('szm.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
+
 const drawingWorker = new DrawingWorker()
 console.log(111)
 drawingWorker.onmessage = (e) => {
@@ -40,7 +44,9 @@ export function generateWallpaper() {
   drawingWorker.postMessage({
     type: 'generate',
     width: wallpaperWidth.value,
-    height: wallpaperHeight.value
+    height: wallpaperHeight.value,
+    density: generateDensity.value,
+    sizeVariation: generateSizeVariation.value
   } satisfies WorkerMessage)
 }
 

@@ -2,7 +2,8 @@
 import { useElementSize } from '@vueuse/core';
 import { computed, ref, useTemplateRef, type CSSProperties } from 'vue';
 import { canvasElement, canvasKey, copyWallpaper, downloadWallpaper, generateWallpaper, imagesLoaded, wallpaperHeight, wallpaperWidth } from './logic';
-import SettingsDialog from './SettingsDialog.vue';
+import CanvasSettingsDialog from './CanvasSettingsDialog.vue';
+import GenerationSettingsDialog from './GenerationSettingsDialog.vue';
 
 const wallpaperRatio = computed(() => wallpaperWidth.value / wallpaperHeight.value)
 
@@ -11,7 +12,8 @@ const { width: containerWidth, height: containerHeight } = useElementSize(canvas
 
 const copyStatus = ref('')
 
-const showSettings = ref(false)
+const showCanvasSettings = ref(false)
+const showGenerationSettings = ref(false)
 
 const wrapperStyle = computed(() => {
   const realWidth = Math.min(containerWidth.value, containerHeight.value * wallpaperRatio.value)
@@ -107,10 +109,16 @@ const handleDownload = () => {
             {{ imagesLoaded ? '生成新壁纸' : '加载图片中...' }}
           </button>
 
-          <button @click="showSettings = true"
+          <button @click="showCanvasSettings = true"
             class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400 hover:text-gray-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
             <span class="text-lg">⚙️</span>
             画布设置
+          </button>
+
+          <button @click="showGenerationSettings = true"
+            class="flex items-center gap-2 px-4 py-2 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-indigo-200 text-blue-700 hover:from-blue-300 hover:to-indigo-300 hover:text-blue-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
+            <span class="text-lg">🎨</span>
+            生成设置
           </button>
         </div>
 
@@ -133,6 +141,7 @@ const handleDownload = () => {
     </div>
 
     <!-- 设置对话框 -->
-    <SettingsDialog v-model="showSettings" />
+    <CanvasSettingsDialog v-model="showCanvasSettings" />
+    <GenerationSettingsDialog v-model="showGenerationSettings" />
   </div>
 </template>

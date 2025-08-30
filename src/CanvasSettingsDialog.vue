@@ -59,9 +59,9 @@ const currentRatio = computed(() => {
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeDialog"></div>
 
     <!-- 对话框 -->
-    <div class="flex flex-col relative bg-gradient-to-br from-white to-green-50 rounded-2xl shadow-2xl shadow-green-500/20 border-2 border-green-200 max-w-md w-full h-[80vh]">
+    <div class="flex flex-col relative bg-gradient-to-br from-white to-green-50 rounded-2xl shadow-2xl shadow-green-500/20 border-2 border-green-200 max-w-md w-full h-[90vh] md:h-[80vh]">
       <!-- 头部 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-t-2xl">
+      <div class="flex-shrink-0 bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 md:p-6 rounded-t-2xl">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold flex items-center gap-2">
             <span class="text-2xl">⚙️</span>
@@ -74,7 +74,7 @@ const currentRatio = computed(() => {
       </div>
 
       <!-- 当前尺寸显示 -->
-      <div class="flex-shrink-0 p-6 pb-0">
+      <div class="flex-shrink-0 p-4 pb-0 md:p-6 md:pb-0 hidden md:block">
         <div class="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-xl border-2 border-green-200">
           <div class="text-center">
             <p class="text-green-700 font-semibold mb-1">当前画布尺寸</p>
@@ -85,7 +85,7 @@ const currentRatio = computed(() => {
       </div>
 
       <!-- 预设尺寸选择 -->
-      <div class="flex-1 flex flex-col p-6 py-4 min-h-0">
+      <div class="flex-1 flex flex-col p-4 py-2 md:p-6 md:py-4 min-h-0">
         <h3 class="flex-shrink-0 text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
           <span class="text-xl">📐</span>
           预设尺寸
@@ -109,7 +109,7 @@ const currentRatio = computed(() => {
       </div>
 
       <!-- 自定义尺寸 -->
-      <div class="flex-shrink-0 px-6 pb-4">
+      <div class="flex-shrink-0 px-4 pb-2 md:px-6 md:pb-4">
         <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
           <span class="text-xl">✏️</span>
           自定义尺寸
@@ -131,7 +131,7 @@ const currentRatio = computed(() => {
       </div>
 
       <!-- 底部按钮 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-green-50 p-6 rounded-b-2xl border-t-2 border-green-200">
+      <div class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-green-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-green-200">
         <div class="flex gap-3">
           <button @click="closeDialog"
             class="flex-1 px-4 py-2.5 rounded-xl font-semibold border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-100 transition-all duration-200">

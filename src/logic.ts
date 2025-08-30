@@ -1,6 +1,5 @@
 import { computed, ref, watch } from "vue"
-import type { WorkerMessage } from "./drawing-worker"
-import DrawingWorker from './drawing-worker.ts?worker'
+import type { WorkerMessage } from "./worker"
 import { useLocalStorage } from "@vueuse/core"
 
 export const isMobile = computed(() => window.innerWidth < 768)
@@ -16,7 +15,9 @@ export const imageBlob = ref<Blob>()
 export const generateDensity = useLocalStorage<number>('szm-wallpaper.generateDensity', 20)  // 密度 (5-100)
 export const generateSizeVariation = useLocalStorage<number>('szm-wallpaper.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
 
-const drawingWorker = new DrawingWorker()
+const drawingWorker = new Worker(new URL('./worker.ts', import.meta.url), {
+  type: 'module',
+})
 drawingWorker.onmessage = (e) => {
   const message = e.data
   if (message.type === 'ready') {

@@ -56,9 +56,7 @@ const szmPlugin = (): Plugin => ({
   async load(id) {
     if (id === '\0szm') {
       const files = await szmFiles;
-      return `export default [
-            ${files.map(content => `'data:image/png;base64,${content.toString('base64')}'`).join(',\n')}
-          ]`
+      return `export default JSON.parse('[${files.slice(0,10).map(content => `"data:image/png;base64,${content.toString('base64')}"`).join(',')}]')`
     }
   }
 })

@@ -198,9 +198,12 @@ const shareToPlatform = (platform: string) => {
       <!-- 画布区域 -->
       <div ref="canvasContainer" class="mb-2 mt--6 md:mb-8 flex-grow-10 h-0 flex items-center justify-center p-4">
         <div :style="wrapperStyle"
-          class="border-3 border-green-300 rounded-2xl shadow-2xl shadow-green-500/20 bg-gradient-to-br from-green-50/80 to-emerald-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-green-500/30">
+          class="relative border-3 border-green-300 rounded-2xl shadow-2xl shadow-green-500/20 bg-gradient-to-br from-green-50/80 to-emerald-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-green-500/30">
           <canvas :key="canvasKey" :ref="setCanvasEl" :style="canvasStyle" class="rounded-xl cursor-pointer"
             @click="handleCanvasClick"></canvas>
+            <div v-if="!imagesLoaded" absolute inset-0 flex items-center justify-center text-2xl text-green-700>
+              加载中...
+            </div>
         </div>
       </div>
     </div>

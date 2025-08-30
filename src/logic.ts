@@ -1,9 +1,10 @@
 import { computed, ref, watch } from "vue"
 import type { WorkerMessage } from "./drawing-worker"
 import DrawingWorker from './drawing-worker.ts?worker'
+import { useLocalStorage } from "@vueuse/core"
 
-export const wallpaperWidth = ref(6000)
-export const wallpaperHeight = ref(3164)
+export const wallpaperWidth = useLocalStorage<number>('szm.wallpaperWidth', 6000)
+export const wallpaperHeight = useLocalStorage<number>('szm.wallpaperHeight', 3164)
 export const canvasElement = ref<HTMLCanvasElement | null>(null)
 export const imagesLoaded = ref(false)
 

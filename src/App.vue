@@ -234,18 +234,6 @@ const shareToPlatform = (platform: string) => {
               <!-- 放大的图片 -->
               <img :src="imageDataURL" alt="suzume suzume"
                 class="max-w-[98vw] max-h-[98vh] object-contain rounded-2xl shadow-2xl animate-pulse-glow" />
-
-              <!-- 装饰性的光点效果 -->
-              <div class="absolute inset-0 pointer-events-none">
-                <div class="absolute top-[20%] left-[10%] w-3 h-3 bg-green-400/60 rounded-full animate-twinkle"
-                  style="animation-delay: 0s;"></div>
-                <div class="absolute top-[70%] right-[15%] w-2 h-2 bg-emerald-400/60 rounded-full animate-twinkle"
-                  style="animation-delay: 1s;"></div>
-                <div class="absolute bottom-[30%] left-[20%] w-4 h-4 bg-green-300/50 rounded-full animate-twinkle"
-                  style="animation-delay: 2s;"></div>
-                <div class="absolute top-[40%] right-[30%] w-2 h-2 bg-emerald-300/60 rounded-full animate-twinkle"
-                  style="animation-delay: 0.5s;"></div>
-              </div>
             </div>
           </Transition>
         </div>

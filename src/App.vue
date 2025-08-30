@@ -50,7 +50,7 @@ const handleCopy = async () => {
   const success = await copyWallpaper()
   if (success) {
     copyStatus.value = '✨ 已复制到剪贴板！'
-    copied1.value ++
+    copied1.value++
   } else {
     copyStatus.value = '❌ 复制失败'
   }
@@ -308,6 +308,19 @@ const shareToPlatform = (platform: string) => {
                   </a>
                 </div>
 
+
+                <!-- 特别感谢-->
+                <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
+                  <div class="text-sm text-green-600 mb-1">🎉 特别感谢</div>
+                  <div class="text-green-700 font-semibold">
+                    表情包原作者：五十根炸虾<br>
+                    与 <a href="https://github.com/Lingluoluo/More_Suzume" target="_blank"
+                      class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline break-all">
+                      Lingluoluo/More_Suzume
+                    </a>
+                  </div>
+                </div>
+
                 <!-- 分享按钮 -->
                 <div class="pt-4">
                   <div class="text-sm text-green-600 mb-3">✨ 分享给朋友们</div>
@@ -325,7 +338,7 @@ const shareToPlatform = (platform: string) => {
                     <button @click="shareToPlatform('copy')"
                       class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full hover:from-gray-200 hover:to-gray-300 hover:text-gray-800 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5 mx-auto">
                       <span>🔗</span>
-                      {{  copied2 ? '已复制': '复制链接' }}
+                      {{ copied2 ? '已复制' : '复制链接' }}
                     </button>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import sharp from 'sharp'
 import UnoCSS from 'unocss/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 
 async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
   try {
@@ -46,29 +46,31 @@ const szmFiles = Promise.all(
     })
 ).then(buffers => buffers.filter((buffer): buffer is Buffer => buffer !== null))
 
+const szmPlugin = (): Plugin => ({
+  name: 'szm-assets',
+  resolveId(id) {
+    if (id === 'virtual:szm') {
+      return '\0szm'
+    }
+  },
+  async load(id) {
+    if (id === '\0szm') {
+      const files = await szmFiles;
+      return `export default [
+            ${files.map(content => `'data:image/png;base64,${content.toString('base64')}'`).join(',\n')}
+          ]`
+    }
+  }
+})
+
 export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(),
+    szmPlugin(),
   ],
   worker: {
-    plugins: () => [{
-      name: 'szm-assets',
-      enforce: 'pre',
-      resolveId(id) {
-        if (id === 'virtual:szm') {
-          return '\0szm'
-        }
-      },
-      async load(id) {
-        if (id === '\0szm') {
-          const files = await szmFiles;
-          return `export default [
-            ${files.map(content => `'data:image/png;base64,${content.toString('base64')}'`).join(',\n')}
-          ]`
-        }
-      }
-    }]
+    plugins: () => [szmPlugin()]
   },
   resolve: {
     alias: {

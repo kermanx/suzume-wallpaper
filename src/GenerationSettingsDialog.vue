@@ -6,11 +6,11 @@ const show = defineModel<boolean>()
 
 // 预设配置选项
 const presetConfigs = [
-  { name: '稀疏分布', density: 10, sizeVariation: 0.8, description: '较少图片，更大间距' },
-  { name: '标准配置', density: 20, sizeVariation: 1.0, description: '默认密度和大小' },
-  { name: '密集分布', density: 50, sizeVariation: 1.2, description: '更多图片，较小间距' },
+  { name: '稀少分布', density: 10, sizeVariation: 0.8, description: '较少图片' },
+  { name: '标准配置', density: 20, sizeVariation: 1.0, description: '默认数量和大小' },
+  { name: '密集分布', density: 50, sizeVariation: 1.2, description: '更多图片' },
   { name: '极密集', density: 80, sizeVariation: 0.6, description: '密集排列，尺寸统一' },
-  { name: '混乱风格', density: 30, sizeVariation: 2.0, description: '中等密度，大小差异明显' },
+  { name: '混乱风格', density: 30, sizeVariation: 2.0, description: '中等数量，大小差异明显' },
 ]
 
 // 临时设置值
@@ -44,9 +44,9 @@ const closeDialog = () => {
   show.value = false
 }
 
-// 密度描述
+// 数量描述
 const densityDescription = computed(() => {
-  if (selectedDensity.value < 15) return '稀疏'
+  if (selectedDensity.value < 15) return '稀少'
   if (selectedDensity.value <= 30) return '适中'
   if (selectedDensity.value < 80) return '密集'
   return '极密集'
@@ -77,8 +77,8 @@ const sizeVariationDescription = computed(() => {
             <span class="text-2xl">🎨</span>
             生成设置
           </h2>
-          <button @click="closeDialog" class="p-1 hover:bg-white/20 rounded-full transition-colors">
-            <span class="text-xl">✕</span>
+          <button @click="closeDialog" class="p-4 m--4 hover:bg-white/20 rounded-full transition-colors">
+            <div class="text-xl" i-carbon-close-large />
           </button>
         </div>
       </div>
@@ -90,7 +90,7 @@ const sizeVariationDescription = computed(() => {
             <p class="text-blue-700 font-semibold mb-2">当前生成设置</p>
             <div class="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <p class="text-blue-600 font-medium">密度</p>
+                <p class="text-blue-600 font-medium">数量</p>
                 <p class="text-lg font-bold text-blue-800">{{ selectedDensity }}</p>
                 <p class="text-xs text-blue-600">{{ densityDescription }}</p>
               </div>
@@ -121,7 +121,7 @@ const sizeVariationDescription = computed(() => {
                   <p class="font-semibold">{{ preset.name }}</p>
                   <p class="text-xs opacity-75 mt-1">{{ preset.description }}</p>
                   <div class="flex gap-2 mt-2 text-xs">
-                    <span class="px-2 py-1 bg-gray-100 rounded-full">密度: {{ preset.density }}</span>
+                    <span class="px-2 py-1 bg-gray-100 rounded-full">数量: {{ preset.density }}</span>
                     <span class="px-2 py-1 bg-gray-100 rounded-full">变化: {{ preset.sizeVariation }}</span>
                   </div>
                 </div>
@@ -140,12 +140,12 @@ const sizeVariationDescription = computed(() => {
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-600 mb-2">
-              密度: {{ selectedDensity }} ({{ densityDescription }})
+              数量: {{ selectedDensity }} ({{ densityDescription }})
             </label>
             <input v-model.number="selectedDensity" type="range" min="5" max="100" step="1"
               class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" />
             <div class="flex text-xs text-gray-500 mt-1">
-              <div>稀疏 (5)</div>
+              <div>稀少 (5)</div>
               <div flex-grow-2 />
               <div>适中 (20)</div>
               <div flex-grow-80 />

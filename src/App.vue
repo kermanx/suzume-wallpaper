@@ -201,9 +201,9 @@ const shareToPlatform = (platform: string) => {
           class="relative border-3 border-green-300 rounded-2xl shadow-2xl shadow-green-500/20 bg-gradient-to-br from-green-50/80 to-emerald-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-green-500/30">
           <canvas :key="canvasKey" :ref="setCanvasEl" :style="canvasStyle" class="rounded-xl cursor-pointer"
             @click="handleCanvasClick"></canvas>
-            <div v-if="!imagesLoaded" absolute inset-0 flex items-center justify-center text-2xl text-green-700>
-              加载中...
-            </div>
+          <div v-if="!imagesLoaded" absolute inset-0 flex items-center justify-center text-2xl text-green-700>
+            加载中...
+          </div>
         </div>
       </div>
     </div>
@@ -228,7 +228,7 @@ const shareToPlatform = (platform: string) => {
               <!-- 关闭按钮 -->
               <button @click="hideImageModal"
                 class="fixed top-4 right-4 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-800 transition-all duration-200 hover:scale-110">
-                <span class="text-xl">✕</span>
+                <span class="text-xl" i-carbon-close-large />
               </button>
 
               <!-- 放大的图片 -->
@@ -290,7 +290,7 @@ const shareToPlatform = (platform: string) => {
                 <!-- UP主信息 -->
                 <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
                   <div class="text-sm text-green-600 mb-1">📺 UP主</div>
-                  <a href="https://space.bilibili.com/search?keyword=没有未来的Suzume酱" target="_blank"
+                  <a href="https://space.bilibili.com/6610851" target="_blank"
                     class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline">
                     bilibili@没有未来的Suzume酱
                   </a>

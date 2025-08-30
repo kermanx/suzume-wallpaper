@@ -67,8 +67,8 @@ const currentRatio = computed(() => {
             <span class="text-2xl">⚙️</span>
             画布设置
           </h2>
-          <button @click="closeDialog" class="p-1 hover:bg-white/20 rounded-full transition-colors">
-            <span class="text-xl">✕</span>
+          <button @click="closeDialog" class="p-4 m--4 hover:bg-white/20 rounded-full transition-colors">
+            <div class="text-xl" i-carbon-close-large />
           </button>
         </div>
       </div>

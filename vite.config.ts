@@ -17,19 +17,42 @@ async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
     // 获取RGBA像素数据
     const { data } = await image.raw().toBuffer({ resolveWithObject: true })
 
-    const topLeftIndex = (0) * 4 + 3
-    const topLeftAlpha = data[topLeftIndex]
+    const notTransparent = (x: number, y: number) => {
+      const index = Math.floor((y * width + x) * 4 + 3)
+      return data[index] !== 0
+    }
 
-    const topRightIndex = (0 * width + (width - 1)) * 4 + 3
-    const topRightAlpha = data[topRightIndex]
+    const blackOrWhite = (x: number, y: number) => {
+      const index = Math.floor((y * width + x) * 4)
+      if (data[index] === 0 && data[index + 1] === 0 && data[index + 2] === 0 && data[index + 3] === 255) {
+        return true
+      }
+      if (data[index] === 255 && data[index + 1] === 255 && data[index + 2] === 255 && data[index + 3] === 255) {
+        return true
+      }
+    }
 
-    const bottomLeftIndex = ((height - 1) * width + 0) * 4 + 3
-    const bottomLeftAlpha = data[bottomLeftIndex]
+    if (notTransparent(0, 0) && notTransparent(width - 1, 0)) {
+      return false
+    }
 
-    const bottomRightIndex = ((height - 1) * width + (width - 1)) * 4 + 3
-    const bottomRightAlpha = data[bottomRightIndex]
+    // if (notTransparent(0, height - 1) && notTransparent(width - 1, height - 1)) {
+    //   return false
+    // }
 
-    return !topLeftAlpha && !topRightAlpha
+    if (blackOrWhite(0, height - 1) && blackOrWhite(width - 1, height - 1)) {
+      return false
+    }
+
+    if (notTransparent(0, height / 2) && notTransparent(width - 1, height / 2)) {
+      return false
+    }
+
+    if (notTransparent(width / 2, 0) && notTransparent(width / 2, height - 1)) {
+      return false
+    }
+
+    return true
   } catch (error) {
     console.warn('Error processing image:', error)
     return false
@@ -41,7 +64,6 @@ const szmFiles = Promise.all(
     .map(async filename => {
       const buffer = await readFile(resolve(import.meta.dirname, 'suzume', filename))
       const hasTransparent = await hasTransparentCorners(buffer)
-      // if (!hasTransparent) console.warn('Image has no transparent corners: ./suzume/' + filename)
       return hasTransparent ? buffer : null
     })
 ).then(buffers => buffers.filter((buffer): buffer is Buffer => buffer !== null))

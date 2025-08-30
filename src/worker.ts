@@ -37,7 +37,8 @@ async function drawSticks(sticks: StickToDraw[], width: number, height: number) 
   if (!ctx) return
 
   // 清空画布
-  ctx.clearRect(0, 0, width, height)
+  ctx.fillStyle = '#eaffef'
+  ctx.fillRect(0, 0, width, height)
 
   // 绘制所有贴纸
   for (const stick of sticks) {

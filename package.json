@@ -13,6 +13,7 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@iconify-json/carbon": "^1.2.13",
     "@types/sharp": "^0.32.0",
     "@vueuse/core": "^13.8.0",
     "sharp": "^0.34.3",

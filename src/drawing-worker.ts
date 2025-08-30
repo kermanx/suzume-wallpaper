@@ -1,9 +1,8 @@
 import data from "virtual:szm"
 import { generate, type StickToDraw } from "./generate"
 
-
-interface InitMessage {
-  type: 'init'
+interface InitCanvasMessage {
+  type: 'init',
   canvas: OffscreenCanvas
 }
 
@@ -13,14 +12,7 @@ interface GenerateMessage {
   height: number
 }
 
-type WorkerMessage = InitMessage | GenerateMessage
-
-// 创建一个离屏Canvas
-let offscreenCanvas: OffscreenCanvas | null = null
-let ctx: OffscreenCanvasRenderingContext2D | null = null
-
-// 存储加载的图片
-let loadedImages: ImageBitmap[] = []
+export type WorkerMessage = InitCanvasMessage | GenerateMessage
 
 // 加载图片
 async function loadImages(): Promise<ImageBitmap[]> {
@@ -37,7 +29,6 @@ async function loadImages(): Promise<ImageBitmap[]> {
 
   return Promise.all(promises)
 }
-
 
 // 绘制贴纸
 async function drawSticks(sticks: StickToDraw[], width: number, height: number) {
@@ -63,41 +54,35 @@ async function drawSticks(sticks: StickToDraw[], width: number, height: number) 
   }
 }
 
+
+// 存储加载的图片
+let loadedImages: ImageBitmap[] = []
+setTimeout(async () => {
+  try {
+    loadedImages = await loadImages()
+    self.postMessage({ type: 'ready', imageCount: loadedImages.length })
+  } catch (error) {
+    console.log('Error loading images:', error)
+    self.postMessage({ type: 'error', message: 'Failed to load images' })
+  }
+  console.log(222)
+},10)
+
+let ctx: OffscreenCanvasRenderingContext2D | null = null
+
 self.onmessage = async function (e: MessageEvent<WorkerMessage>) {
   const message = e.data
 
   if (message.type === 'init') {
-    offscreenCanvas = message.canvas
+    const offscreenCanvas = message.canvas
     ctx = offscreenCanvas.getContext('2d')
-
-    // 初始化时加载所有图片
-    try {
-      loadedImages = await loadImages()
-      self.postMessage({ type: 'ready', imageCount: loadedImages.length })
-    } catch (error) {
-      console.log('Error loading images:', error)
-      self.postMessage({ type: 'error', message: 'Failed to load images' })
-    }
-    return
-  }
-
-  if (message.type === 'generate') {
-    if (!ctx || !offscreenCanvas) {
+  } else if (message.type === 'generate') {
+    if (!ctx) {
       self.postMessage({ type: 'error', message: 'Canvas not initialized' })
       return
     }
 
-    // 设置画布尺寸
-    offscreenCanvas.width = message.width
-    offscreenCanvas.height = message.height
-
-    // 生成贴纸位置数据
     const sticks = generate(message.width, message.height, loadedImages.length)
-
-
-    console.log(sticks)
-
-    // 绘制贴纸
     await drawSticks(sticks, message.width, message.height)
 
     self.postMessage({ type: 'generated' })

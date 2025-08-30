@@ -29,7 +29,7 @@ async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
     const bottomRightIndex = ((height - 1) * width + (width - 1)) * 4 + 3
     const bottomRightAlpha = data[bottomRightIndex]
 
-    return !topLeftAlpha && !topRightAlpha 
+    return !topLeftAlpha && !topRightAlpha
   } catch (error) {
     console.warn('Error processing image:', error)
     return false
@@ -41,7 +41,7 @@ const szmFiles = Promise.all(
     .map(async filename => {
       const buffer = await readFile(resolve(import.meta.dirname, 'suzume', filename))
       const hasTransparent = await hasTransparentCorners(buffer)
-      if (!hasTransparent) console.warn('Image has no transparent corners: ./suzume/' + filename)
+      // if (!hasTransparent) console.warn('Image has no transparent corners: ./suzume/' + filename)
       return hasTransparent ? buffer : null
     })
 ).then(buffers => buffers.filter((buffer): buffer is Buffer => buffer !== null))
@@ -50,23 +50,26 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS(),
-    {
+  ],
+  worker: {
+    plugins: () => [{
       name: 'szm-assets',
+      enforce: 'pre',
       resolveId(id) {
         if (id === 'virtual:szm') {
-          return id
+          return '\0szm'
         }
       },
       async load(id) {
-        if (id === 'virtual:szm') {
+        if (id === '\0szm') {
           const files = await szmFiles;
           return `export default [
             ${files.map(content => `'data:image/png;base64,${content.toString('base64')}'`).join(',\n')}
           ]`
         }
       }
-    }
-  ],
+    }]
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

@@ -14,6 +14,8 @@ const copyStatus = ref('')
 
 const showCanvasSettings = ref(false)
 const showGenerationSettings = ref(false)
+const showImageModal = ref(false)
+const modalImageSrc = ref('')
 
 const wrapperStyle = computed(() => {
   const realWidth = Math.min(containerWidth.value, containerHeight.value * wallpaperRatio.value)
@@ -59,6 +61,20 @@ const handleDownload = () => {
   setTimeout(() => {
     copyStatus.value = ''
   }, 2000)
+}
+
+// 点击canvas放大显示
+const handleCanvasClick = () => {
+  if (!canvasElement.value) return
+  
+  // 将canvas转换为图片数据URL
+  modalImageSrc.value = canvasElement.value.toDataURL('image/png')
+  showImageModal.value = true
+}
+
+// 隐藏放大图片
+const hideImageModal = () => {
+  showImageModal.value = false
 }
 </script>
 
@@ -135,7 +151,7 @@ const handleDownload = () => {
       <div ref="canvasContainer" class="mb-8 flex-grow-10 h-0 flex items-center justify-center p-4">
         <div :style="wrapperStyle"
           class="border-3 border-green-300 rounded-2xl shadow-2xl shadow-green-500/20 bg-gradient-to-br from-green-50/80 to-emerald-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-green-500/30">
-          <canvas :key="canvasKey" :ref="setCanvasEl" :style="canvasStyle" class="rounded-xl"></canvas>
+          <canvas :key="canvasKey" :ref="setCanvasEl" :style="canvasStyle" class="rounded-xl cursor-pointer" @click="handleCanvasClick"></canvas>
         </div>
       </div>
     </div>
@@ -143,5 +159,85 @@ const handleDownload = () => {
     <!-- 设置对话框 -->
     <CanvasSettingsDialog v-model="showCanvasSettings" />
     <GenerationSettingsDialog v-model="showGenerationSettings" />
+
+    <!-- 图片放大弹出框 -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-200 ease-out"
+        leave-active-class="transition-opacity duration-150 ease-in"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div v-if="showImageModal" 
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          @click="hideImageModal">
+          <Transition
+            enter-active-class="transition-all duration-200 ease-out"
+            leave-active-class="transition-all duration-150 ease-in"
+            enter-from-class="opacity-0 scale-90"
+            enter-to-class="opacity-100 scale-100"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-90"
+          >
+            <div v-if="showImageModal" class="relative transform-gpu"
+              @click.stop>
+              <!-- 关闭按钮 -->
+              <button 
+                @click="hideImageModal"
+                class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-800 transition-all duration-200 hover:scale-110">
+                <span class="text-xl">✕</span>
+              </button>
+              
+              <!-- 放大的图片 -->
+              <img 
+                :src="modalImageSrc" 
+                alt="放大的壁纸"
+                class="max-w-[98vw] max-h-[98vh] object-contain rounded-2xl shadow-2xl animate-pulse-glow"
+              />
+              
+              <!-- 装饰性的光点效果 -->
+              <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-[20%] left-[10%] w-3 h-3 bg-green-400/60 rounded-full animate-twinkle" style="animation-delay: 0s;"></div>
+                <div class="absolute top-[70%] right-[15%] w-2 h-2 bg-emerald-400/60 rounded-full animate-twinkle" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-[30%] left-[20%] w-4 h-4 bg-green-300/50 rounded-full animate-twinkle" style="animation-delay: 2s;"></div>
+                <div class="absolute top-[40%] right-[30%] w-2 h-2 bg-emerald-300/60 rounded-full animate-twinkle" style="animation-delay: 0.5s;"></div>
+              </div>
+            </div>
+          </Transition>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
+
+<style scoped>
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.5), 0 0 80px rgba(34, 197, 94, 0.2);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+</style>

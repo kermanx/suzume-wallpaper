@@ -308,9 +308,9 @@ const shareToPlatform = (platform: string) => {
                 <!-- 项目仓库 -->
                 <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
                   <div class="text-sm text-green-600 mb-1">🌐 项目地址</div>
-                  <a href="https://github.com/kermanx/szm-wallpaper-gen" target="_blank"
+                  <a href="https://github.com/kermanx/suzume-wallpaper" target="_blank"
                     class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline break-all">
-                    github.com/kermanx/szm-wallpaper-gen
+                    github.com/kermanx/suzume-wallpaper
                   </a>
                 </div>
 

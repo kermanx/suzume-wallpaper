@@ -8,6 +8,9 @@ export interface StickToDraw {
 
 export function generate(width: number, height: number, total: number, density: number, sizeVariation: number = 1.0): StickToDraw[] {
   density = density * 0.8
+  if (width < height) {
+    density = density * width / height
+  }
 
   const sticks: StickToDraw[] = []
 

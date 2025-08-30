@@ -65,21 +65,22 @@ setTimeout(async () => {
     self.postMessage({ type: 'ready', imageCount: loadedImages.length })
   } catch (error) {
     console.log('Error loading images:', error)
+    alert('加载图片失败，请重试')
     self.postMessage({ type: 'error', message: 'Failed to load images' })
   }
-  console.log(222)
-},10)
+}, 10)
 
+let offscreenCanvas: OffscreenCanvas | null = null
 let ctx: OffscreenCanvasRenderingContext2D | null = null
 
 self.onmessage = async function (e: MessageEvent<WorkerMessage>) {
   const message = e.data
 
   if (message.type === 'init') {
-    const offscreenCanvas = message.canvas
+    offscreenCanvas = message.canvas
     ctx = offscreenCanvas.getContext('2d')
   } else if (message.type === 'generate') {
-    if (!ctx) {
+    if (!ctx || !offscreenCanvas) {
       self.postMessage({ type: 'error', message: 'Canvas not initialized' })
       return
     }
@@ -87,7 +88,15 @@ self.onmessage = async function (e: MessageEvent<WorkerMessage>) {
     const sticks = generate(message.width, message.height, loadedImages.length, message.density, message.sizeVariation)
     await drawSticks(sticks, message.width, message.height)
 
-    self.postMessage({ type: 'generated' })
+    setTimeout(async () => {
+      if (!offscreenCanvas) return
+      const blob = await offscreenCanvas.convertToBlob({ type: 'image/png' })
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        self.postMessage({ type: 'generated', blob, dataURL: reader.result })
+      }
+      reader.readAsDataURL(blob)
+    }, 100)
     return
   }
 }

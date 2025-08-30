@@ -3,17 +3,20 @@ import type { WorkerMessage } from "./drawing-worker"
 import DrawingWorker from './drawing-worker.ts?worker'
 import { useLocalStorage } from "@vueuse/core"
 
-export const wallpaperWidth = useLocalStorage<number>('szm.wallpaperWidth', 6000)
-export const wallpaperHeight = useLocalStorage<number>('szm.wallpaperHeight', 3164)
+export const isMobile = computed(() => window.innerWidth < 768)
+
+export const wallpaperWidth = useLocalStorage<number>('szm-wallpaper.wallpaperWidth', isMobile ? 2160 : 3840)
+export const wallpaperHeight = useLocalStorage<number>('szm-wallpaper.wallpaperHeight', isMobile ? 3840 : 2160)
 export const canvasElement = ref<HTMLCanvasElement | null>(null)
 export const imagesLoaded = ref(false)
+export const imageDataURL = ref('')
+export const imageBlob = ref<Blob>()
 
 // 生成设置
-export const generateDensity = useLocalStorage<number>('szm.generateDensity', 20)  // 密度 (5-100)
-export const generateSizeVariation = useLocalStorage<number>('szm.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
+export const generateDensity = useLocalStorage<number>('szm-wallpaper.generateDensity', 20)  // 密度 (5-100)
+export const generateSizeVariation = useLocalStorage<number>('szm-wallpaper.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
 
 const drawingWorker = new DrawingWorker()
-console.log(111)
 drawingWorker.onmessage = (e) => {
   const message = e.data
   if (message.type === 'ready') {
@@ -21,6 +24,8 @@ drawingWorker.onmessage = (e) => {
     imagesLoaded.value = true
   } else if (message.type === 'generated') {
     console.log('Wallpaper generated')
+    imageDataURL.value = message.dataURL
+    imageBlob.value = message.blob
   } else if (message.type === 'error') {
     console.error('Worker error:', message.message)
   }
@@ -65,12 +70,20 @@ watch([wallpaperWidth, wallpaperHeight], () => {
   canvasKey.value++
 }, { immediate: true })
 
-export function downloadWallpaper() {
+export async function downloadWallpaper() {
   if (!canvasElement.value) return
+
+  if (!imageDataURL.value) {
+    await new Promise((resolve) => setTimeout(resolve, 500))
+  }
+  if (!imageDataURL.value) {
+    alert('获取图片失败')
+    return
+  }
 
   const link = document.createElement('a')
   link.download = `suzume-wallpaper-${Date.now()}.png`
-  link.href = canvasElement.value.toDataURL('image/png')
+  link.href = imageDataURL.value
   link.click()
 }
 
@@ -78,16 +91,17 @@ export async function copyWallpaper() {
   if (!canvasElement.value) return
 
   try {
-    const canvas = canvasElement.value
-    const blob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob)
-      }, 'image/png')
-    })
+    if (!imageBlob.value) {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+    }
+    if (!imageBlob.value) {
+      alert('获取图片失败')
+      return
+    }
 
     await navigator.clipboard.write([
       new ClipboardItem({
-        'image/png': blob
+        'image/png': imageBlob.value
       })
     ])
 

@@ -134,19 +134,6 @@ const shareToPlatform = (platform: string) => {
 
 <template>
   <div class="fixed inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 overflow-auto">
-    <!-- 背景装饰圆圈 -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div
-        class="absolute top-[10%] right-[15%] w-30 h-30 rounded-full bg-gradient-to-br from-green-200/20 to-emerald-200/10 animate-bounce"
-        style="animation-delay: -1s;"></div>
-      <div
-        class="absolute bottom-[20%] left-[10%] w-20 h-20 rounded-full bg-gradient-to-br from-green-300/15 to-emerald-300/8 animate-pulse"
-        style="animation-delay: -3s;"></div>
-      <div
-        class="absolute top-[60%] right-[8%] w-15 h-15 rounded-full bg-gradient-to-br from-green-400/10 to-emerald-400/5 animate-ping"
-        style="animation-delay: -5s;"></div>
-    </div>
-
     <!-- 主要内容 -->
     <div class="relative z-10 flex flex-col h-full">
       <!-- 标题区域 -->
@@ -317,7 +304,7 @@ const shareToPlatform = (platform: string) => {
                   <div class="text-sm text-green-600 mb-1">🎉 特别感谢</div>
                   <div class="text-green-700 font-semibold">
                     表情包原作者：五十根炸虾<br>
-                    与 <a href="https://github.com/Lingluoluo/More_Suzume" target="_blank"
+                    以及<a href="https://github.com/Lingluoluo/More_Suzume" target="_blank"
                       class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline break-all">
                       Lingluoluo/More_Suzume
                     </a>

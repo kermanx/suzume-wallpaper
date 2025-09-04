@@ -28,7 +28,7 @@
     "npm-run-all2": "^8.0.4",
     "typescript": "~5.8.0",
     "unocss": "^66.4.2",
-    "vite": "npm:rolldown-vite@latest",
+    "vite": "^7.1.4",
     "vite-plugin-vue-devtools": "^8.0.0",
     "vue-tsc": "^3.0.4"
   }

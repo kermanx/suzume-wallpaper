@@ -1,4 +1,4 @@
-import data from "virtual:szm"
+import loader from "virtual:szm"
 import { generate, type StickToDraw } from "./generate"
 
 interface InitCanvasMessage {
@@ -18,6 +18,7 @@ export type WorkerMessage = InitCanvasMessage | GenerateMessage
 
 // 加载图片
 async function loadImages(): Promise<ImageBitmap[]> {
+  const data = await loader()
   const promises = data.map(async (url) => {
     try {
       const response = await fetch(url)

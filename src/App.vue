@@ -342,7 +342,7 @@ const shareToPlatform = (platform: string) => {
 
 
   <img fixed z-1000 right-0 bottom-0 w-12 md:w-20 hover:scale-y-90 transform-origin-right-bottom transition-all
-    active:translate-y-2 md:active:translate-y-4 src="../suzume/134.png" @click="showAuthorDialog = !showAuthorDialog"
+    active:translate-y-2 md:active:translate-y-4 src="/摸鱼.png" @click="showAuthorDialog = !showAuthorDialog"
     class="cursor-pointer" />
 </template>
 

@@ -47,67 +47,122 @@ export async function uploadString(content: string): Promise<string> {
 }
 
 
-async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
-  try {
-    const image = sharp(buffer)
-    const { width, height } = await image.metadata()
+// async function isFeasibleImage(buffer: Buffer): Promise<boolean> {
+//   try {
+//     const image = sharp(buffer)
+//     const { width, height } = await image.metadata()
 
-    if (!width || !height) return false
+//     if (!width || !height) return false
 
-    // 获取RGBA像素数据
-    const { data } = await image.raw().toBuffer({ resolveWithObject: true })
+//     // 获取RGBA像素数据
+//     const { data } = await image.raw().toBuffer({ resolveWithObject: true })
 
-    const notTransparent = (x: number, y: number) => {
-      const index = Math.floor((y * width + x) * 4 + 3)
-      return data[index] !== 0
-    }
+//     const notTransparent = (x: number, y: number) => {
+//       const index = Math.floor((y * width + x) * 4 + 3)
+//       return data[index] !== 0
+//     }
 
-    const blackOrWhite = (x: number, y: number) => {
-      const index = Math.floor((y * width + x) * 4)
-      if (data[index] === 0 && data[index + 1] === 0 && data[index + 2] === 0 && data[index + 3] === 255) {
-        return true
-      }
-      if (data[index] === 255 && data[index + 1] === 255 && data[index + 2] === 255 && data[index + 3] === 255) {
-        return true
-      }
-    }
+//     const blackOrWhite = (x: number, y: number) => {
+//       const index = Math.floor((y * width + x) * 4)
+//       if (data[index] === 0 && data[index + 1] === 0 && data[index + 2] === 0 && data[index + 3] === 255) {
+//         return true
+//       }
+//       if (data[index] === 255 && data[index + 1] === 255 && data[index + 2] === 255 && data[index + 3] === 255) {
+//         return true
+//       }
+//     }
 
-    if (notTransparent(0, 0) && notTransparent(width - 1, 0)) {
-      return false
-    }
+//     if (notTransparent(0, 0) && notTransparent(width - 1, 0)) {
+//       return false
+//     }
 
-    // if (notTransparent(0, height - 1) && notTransparent(width - 1, height - 1)) {
-    //   return false
-    // }
+//     // if (notTransparent(0, height - 1) && notTransparent(width - 1, height - 1)) {
+//     //   return false
+//     // }
 
-    if (blackOrWhite(0, height - 1) && blackOrWhite(width - 1, height - 1)) {
-      return false
-    }
+//     if (blackOrWhite(0, height - 1) && blackOrWhite(width - 1, height - 1)) {
+//       return false
+//     }
 
-    if (notTransparent(0, height / 2) && notTransparent(width - 1, height / 2)) {
-      return false
-    }
+//     if (notTransparent(0, height / 2) && notTransparent(width - 1, height / 2)) {
+//       return false
+//     }
 
-    if (notTransparent(width / 2, 0) && notTransparent(width / 2, height - 1)) {
-      return false
-    }
+//     if (notTransparent(width / 2, 0) && notTransparent(width / 2, height - 1)) {
+//       return false
+//     }
 
-    return true
-  } catch (error) {
-    console.warn('Error processing image:', error)
-    return false
-  }
-}
+//     return true
+//   } catch (error) {
+//     console.warn('Error processing image:', error)
+//     return false
+//   }
+// }
+
+const EXCLUDED = [
+  '香槟',
+  '沉入海底',
+  '下头',
+  '不许睡',
+  '洗衣机',
+  '拆空调',
+  '弃置于此',
+  '寄',
+  '纸片',
+  '考研',
+  '水下小猫',
+  '浴霸',
+  'clash',
+  '升天',
+  '电车go',
+  '寄了',
+  'a.png',
+  'IEM',
+  '要饭',
+  '等待戈多',
+  '不是时候',
+  '被冲了',
+  '撒了你',
+  '小心台阶',
+  '你醒啦',
+  '自我管理',
+  '梓',
+  '撸猫',
+  '飞机',
+  '时间管理',
+  '掀被子',
+  '一人四熊',
+  '深渊凝视',
+  '足够了',
+  '举盾',
+  '传火',
+  '突然出现',
+  '17/再见',
+
+  '心悸',
+  '看',
+  '比心',
+  '贴',
+  '瞪',
+]
 
 const szmFiles = Promise.all(
-  readdirSync(resolve(import.meta.dirname, 'suzume'))
-    .map(async filename => {
-      const buffer = await readFile(resolve(import.meta.dirname, 'suzume', filename))
-      const hasTransparent = await hasTransparentCorners(buffer)
-      return hasTransparent ? buffer : null
+  readdirSync(resolve(import.meta.dirname, 'data'))
+    .flatMap(dir => {
+      const dirPath = resolve(import.meta.dirname, 'data', dir)
+      return readdirSync(dirPath)
+        .filter(filename => filename.endsWith('.png'))
+        .map(filename => resolve(dirPath, filename))
+    })
+    .map(async filepath => {
+      filepath = filepath.replaceAll('\\', '/')
+      const buffer = await readFile(filepath)
+      // const isFeasible = await isFeasibleImage(buffer)
+      const isFeasible = EXCLUDED.every(str => !filepath.includes(str))
+      return isFeasible ? buffer : null
     })
 ).then(async buffers => {
-  const files = buffers.filter((buffer): buffer is Buffer => buffer !== null)
+  const files = buffers.filter((buffer) => buffer !== null)
   const json = `[${files.map(content => `"data:image/png;base64,${content.toString('base64')}"`).join(',')}]`
   return {
     json,

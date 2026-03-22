@@ -1,0 +1,248 @@
+{
+  "author": "",
+  "childEmojiId": "",
+  "commDiyText": [],
+  "downloadcount": 100000,
+  "feetype": "1",
+  "filesize": "578682",
+  "id": "237196",
+  "imgs": [
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "8dd17aaaddb931d201c1154b5d23e5a9",
+      "keywords": [
+        "家务"
+      ],
+      "name": "家务",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "9241309f12a18da747e24e5f712eff59",
+      "keywords": [
+        "缠绕"
+      ],
+      "name": "缠绕",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "b59e62f37eb5eae853e608b2af9588d4",
+      "keywords": [
+        "抱着"
+      ],
+      "name": "抱着",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "cb9070264e2954fcb5a1634ba1285482",
+      "keywords": [
+        "护食"
+      ],
+      "name": "护食",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "17219754fc1020b83d012f157ab98564",
+      "keywords": [
+        "悲伤"
+      ],
+      "name": "悲伤",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "3d62f2743042825792751bd2e23a8e16",
+      "keywords": [
+        "结束进程"
+      ],
+      "name": "结束进程",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "96f81e2617a5c61cf7cafda2fecb4f2a",
+      "keywords": [
+        "自我管理"
+      ],
+      "name": "自我管理",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "bbf8d2dcb141cd8b642f35cf91cf9ca5",
+      "keywords": [
+        "撕"
+      ],
+      "name": "撕",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "c5042a6ef8ef6a5e25bed1eb65980833",
+      "keywords": [
+        "心悸"
+      ],
+      "name": "心悸",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "66adb7392c33a32b4afe8b781d7ab6fb",
+      "keywords": [
+        "粘住"
+      ],
+      "name": "粘住",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "d8f033325b1ef9e2224c49a83cf37c86",
+      "keywords": [
+        "睡觉"
+      ],
+      "name": "睡觉",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "a82d357d002c563c4abf755bc793b928",
+      "keywords": [
+        "梓"
+      ],
+      "name": "梓",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "41bd018186df57bc3040f5fd909c89f4",
+      "keywords": [
+        "呼呼呼"
+      ],
+      "name": "呼呼呼",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "8138483b2fb5fe856858a194a680cc89",
+      "keywords": [
+        "萌混过关"
+      ],
+      "name": "萌混过关",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "5a114a215ca539a1a82bf3228e00ef47",
+      "keywords": [
+        "递茶"
+      ],
+      "name": "递茶",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    },
+    {
+      "diyText": [
+        "[]"
+      ],
+      "id": "4d71deb230b65b477597601580d70057",
+      "keywords": [
+        "咩"
+      ],
+      "name": "咩",
+      "param": "",
+      "wHeightInPhone": 200,
+      "wWidthInPhone": 200
+    }
+  ],
+  "isApng": 0,
+  "isOriginal": 1,
+  "mark": "这是最后一套",
+  "name": "撕梓咩十二",
+  "operationInfo": [
+    {
+      "maxVersion": "999.999.999",
+      "minVersion": "4.7",
+      "platform": 0
+    }
+  ],
+  "price": 0,
+  "rights": "",
+  "ringtype": "0",
+  "status": "1",
+  "supportApngSize": [],
+  "supportSize": [
+    {
+      "Height": 300,
+      "Width": 300
+    },
+    {
+      "Height": 200,
+      "Width": 200
+    }
+  ],
+  "type": 3,
+  "updateTime": 1704873104,
+  "validArea": "3"
+}

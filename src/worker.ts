@@ -34,7 +34,7 @@ async function loadImages(): Promise<ImageBitmap[]> {
 }
 
 // 绘制贴纸
-async function drawSticks(sticks: StickToDraw[], width: number, height: number) {
+function drawSticks(sticks: StickToDraw[], width: number, height: number) {
   if (!ctx) return
 
   // 清空画布
